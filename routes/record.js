@@ -4,14 +4,12 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-// This section will help you get a list of all the records.
 router.get("/", async (req, res) => {
   let collection = await db.collection("PostList");
   let results = await collection.find({}).toArray();
   res.send(results).status(200);
 });
 
-// This section will help you get a single record by id
 router.get("/:id", async (req, res) => {
   let collection = await db.collection("PostList");
   let query = {_id: new ObjectId(req.params.id)};
@@ -21,7 +19,6 @@ router.get("/:id", async (req, res) => {
   else res.send(result).status(200);
 });
 
-// This section will help you create a new record.
 router.post("/", async (req, res) => {
   let newDocument = {
     date: req.body.date,
@@ -32,13 +29,13 @@ router.post("/", async (req, res) => {
     grade: req.body.grade,
     shuttlecock: req.body.shuttlecock,
     signup: req.body.signup,
+    fee: req.body.fee
   };
   let collection = await db.collection("PostList");
   let result = await collection.insertOne(newDocument);
   res.send(result).status(204);
 });
 
-// This section will help you update a record by id.
 router.patch("/:id", async (req, res) => {
   const query = { _id: new ObjectId(req.params.id) };
   const updates =  {
@@ -51,6 +48,7 @@ router.patch("/:id", async (req, res) => {
       grade: req.body.grade,
       shuttlecock: req.body.shuttlecock,
       signup: req.body.signup,
+      fee: req.body.fee
     }
   };
 
@@ -59,7 +57,6 @@ router.patch("/:id", async (req, res) => {
   res.send(result).status(200);
 });
 
-// This section will help you delete a record
 router.delete("/:id", async (req, res) => {
   const query = { _id: new ObjectId(req.params.id) };
 
